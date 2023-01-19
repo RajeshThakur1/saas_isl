@@ -1,0 +1,22 @@
+import os
+import unittest
+from app.main.model import user,store,storeItems,itemOrders,itemOrderLists,quantityUnit,category,menuCategory,locality,city,storeMenuCategory,storeCategory,storeItemUploads,storeItemVariable
+from app.main.model import storeLocalities,cityCategories,superAdmin
+from app.main.model import *
+from app.main.model import user,store,userAddress,admin,merchant,storeMerchant,merchantTransactions,userOtp
+from app.main.model import coupon,couponCategories,couponCities,userCities,supervisor
+from app.main.model import coupon,couponCategories,couponCities,couponMerchant,couponStores, storeMis
+from app.main.model import cityMisDetails, misDetails, storeTaxes, itemOrderTax, deliveryAgent,session
+from app.main.model import refund,transactions,notification
+from app.main.model import progress, hub, distributor, hubBankDetails, hubTaxes, hubOrderTax, hubOrderList, hubOrders
+from flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager
+from app import blueprint
+from werkzeug.utils import cached_property
+from app.main.controller.v1.user.user_controller import main as main_blueprint
+from app.main import create_app, db
+app = create_app('')
+app.register_blueprint(blueprint)
+app.register_blueprint(main_blueprint)
+app.app_context().push()
+

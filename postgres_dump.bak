@@ -1,0 +1,2250 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.7 (Ubuntu 12.7-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.7 (Ubuntu 12.7-0ubuntu0.20.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: admin; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.admin (
+    id integer NOT NULL,
+    email character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    password_hash character varying(100),
+    active boolean,
+    phone character varying(255) NOT NULL,
+    role character varying(255),
+    email_verified_at timestamp without time zone,
+    phone_verified_at timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.admin OWNER TO postgres;
+
+--
+-- Name: admin_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.admin_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.admin_id_seq OWNER TO postgres;
+
+--
+-- Name: admin_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.admin_id_seq OWNED BY public.admin.id;
+
+
+--
+-- Name: alembic_version; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.alembic_version (
+    version_num character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.alembic_version OWNER TO postgres;
+
+--
+-- Name: blacklist_tokens; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.blacklist_tokens (
+    id integer NOT NULL,
+    token character varying(500) NOT NULL,
+    blacklisted_on timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.blacklist_tokens OWNER TO postgres;
+
+--
+-- Name: blacklist_tokens_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.blacklist_tokens_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.blacklist_tokens_id_seq OWNER TO postgres;
+
+--
+-- Name: blacklist_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.blacklist_tokens_id_seq OWNED BY public.blacklist_tokens.id;
+
+
+--
+-- Name: categories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.categories (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    image character varying(255) NOT NULL,
+    status integer NOT NULL,
+    created_at timestamp without time zone,
+    deleted_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.categories OWNER TO postgres;
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.categories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.categories_id_seq OWNER TO postgres;
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
+
+
+--
+-- Name: cities; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.cities (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    code character varying(255) NOT NULL,
+    status integer NOT NULL,
+    help_number character varying(255) NOT NULL,
+    whats_app_number character varying(255),
+    created_at timestamp without time zone,
+    deleted_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.cities OWNER TO postgres;
+
+--
+-- Name: cities_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.cities_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.cities_id_seq OWNER TO postgres;
+
+--
+-- Name: cities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.cities_id_seq OWNED BY public.cities.id;
+
+
+--
+-- Name: city_categories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.city_categories (
+    id integer NOT NULL,
+    city_id integer,
+    category_id integer,
+    status integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.city_categories OWNER TO postgres;
+
+--
+-- Name: city_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.city_categories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.city_categories_id_seq OWNER TO postgres;
+
+--
+-- Name: city_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.city_categories_id_seq OWNED BY public.city_categories.id;
+
+
+--
+-- Name: coupon_categories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.coupon_categories (
+    id integer NOT NULL,
+    category_id integer NOT NULL,
+    coupon_id integer NOT NULL,
+    status smallint NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.coupon_categories OWNER TO postgres;
+
+--
+-- Name: coupon_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.coupon_categories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.coupon_categories_id_seq OWNER TO postgres;
+
+--
+-- Name: coupon_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.coupon_categories_id_seq OWNED BY public.coupon_categories.id;
+
+
+--
+-- Name: coupon_cities; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.coupon_cities (
+    id integer NOT NULL,
+    city_id integer NOT NULL,
+    coupon_id integer NOT NULL,
+    status smallint NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.coupon_cities OWNER TO postgres;
+
+--
+-- Name: coupon_cities_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.coupon_cities_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.coupon_cities_id_seq OWNER TO postgres;
+
+--
+-- Name: coupon_cities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.coupon_cities_id_seq OWNED BY public.coupon_cities.id;
+
+
+--
+-- Name: coupons; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.coupons (
+    id integer NOT NULL,
+    code character varying(255) NOT NULL,
+    title character varying(255),
+    description text NOT NULL,
+    banner_1 character varying(255),
+    banner_2 character varying(255),
+    level smallint NOT NULL,
+    target smallint NOT NULL,
+    deduction_type smallint NOT NULL,
+    deduction_amount integer NOT NULL,
+    min_order_value integer NOT NULL,
+    max_deduction integer,
+    user_id integer,
+    previous_order_track integer,
+    max_user_usage_limit integer NOT NULL,
+    expired_at character varying(255),
+    status smallint NOT NULL,
+    order_id integer,
+    is_display smallint,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.coupons OWNER TO postgres;
+
+--
+-- Name: coupons_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.coupons_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.coupons_id_seq OWNER TO postgres;
+
+--
+-- Name: coupons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.coupons_id_seq OWNED BY public.coupons.id;
+
+
+--
+-- Name: item_order_lists; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.item_order_lists (
+    id integer NOT NULL,
+    item_order_id integer NOT NULL,
+    store_item_id integer NOT NULL,
+    store_item_variable_id integer NOT NULL,
+    product_packaged character varying(255),
+    quantity integer NOT NULL,
+    removed_by integer NOT NULL,
+    status integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.item_order_lists OWNER TO postgres;
+
+--
+-- Name: item_order_lists_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.item_order_lists_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.item_order_lists_id_seq OWNER TO postgres;
+
+--
+-- Name: item_order_lists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.item_order_lists_id_seq OWNED BY public.item_order_lists.id;
+
+
+--
+-- Name: item_orders; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.item_orders (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    store_id integer NOT NULL,
+    slug character varying(255),
+    order_total integer,
+    coupon_id integer,
+    order_total_discount integer,
+    final_order_total integer,
+    delivery_fee integer,
+    grand_order_total integer,
+    initial_paid integer,
+    order_created timestamp without time zone,
+    order_confirmed timestamp without time zone,
+    ready_to_pack timestamp without time zone,
+    order_paid timestamp without time zone,
+    order_pickedup timestamp without time zone,
+    order_delivered timestamp without time zone,
+    delivery_date timestamp without time zone,
+    user_address_id integer,
+    delivery_slot_id integer,
+    da_id integer,
+    status integer,
+    merchant_transfer_at character varying(255),
+    merchant_transaction_id integer,
+    txnid integer,
+    gateway character varying(255),
+    transaction_status character varying(255),
+    cancelled_by integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.item_orders OWNER TO postgres;
+
+--
+-- Name: item_orders_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.item_orders_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.item_orders_id_seq OWNER TO postgres;
+
+--
+-- Name: item_orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.item_orders_id_seq OWNED BY public.item_orders.id;
+
+
+--
+-- Name: localities; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.localities (
+    id integer NOT NULL,
+    city_id integer,
+    name character varying(255) NOT NULL,
+    code character varying(255) NOT NULL,
+    pin character varying(255) NOT NULL,
+    delivery_fee character varying(255),
+    start_time character varying(255),
+    end_time character varying(255),
+    status integer NOT NULL,
+    created_at timestamp without time zone,
+    deleted_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.localities OWNER TO postgres;
+
+--
+-- Name: localities_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.localities_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.localities_id_seq OWNER TO postgres;
+
+--
+-- Name: localities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.localities_id_seq OWNED BY public.localities.id;
+
+
+--
+-- Name: menu_categories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.menu_categories (
+    id integer NOT NULL,
+    category_id integer,
+    name character varying(255) NOT NULL,
+    image character varying(255),
+    slug character varying(255) NOT NULL,
+    status integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.menu_categories OWNER TO postgres;
+
+--
+-- Name: menu_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.menu_categories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.menu_categories_id_seq OWNER TO postgres;
+
+--
+-- Name: menu_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.menu_categories_id_seq OWNED BY public.menu_categories.id;
+
+
+--
+-- Name: merchant; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.merchant (
+    id integer NOT NULL,
+    email character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    password_hash character varying(100),
+    active boolean,
+    phone character varying(255) NOT NULL,
+    role character varying(255),
+    email_verified_at timestamp without time zone,
+    phone_verified_at timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.merchant OWNER TO postgres;
+
+--
+-- Name: merchant_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.merchant_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.merchant_id_seq OWNER TO postgres;
+
+--
+-- Name: merchant_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.merchant_id_seq OWNED BY public.merchant.id;
+
+
+--
+-- Name: quantity_unit; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.quantity_unit (
+    id integer NOT NULL,
+    name character varying(255),
+    short_name character varying(255),
+    conversion character varying(255) NOT NULL,
+    type_details character varying(255) NOT NULL,
+    status integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.quantity_unit OWNER TO postgres;
+
+--
+-- Name: quantity_unit_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.quantity_unit_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.quantity_unit_id_seq OWNER TO postgres;
+
+--
+-- Name: quantity_unit_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.quantity_unit_id_seq OWNED BY public.quantity_unit.id;
+
+
+--
+-- Name: store; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.store (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    slug character varying(255) NOT NULL,
+    owner_name character varying(255),
+    shopkeeper_name character varying(255),
+    image character varying(255),
+    address_line_1 character varying(255),
+    address_line_2 character varying(255),
+    store_latitude double precision,
+    store_longitude double precision,
+    pay_later integer NOT NULL,
+    delivery_mode integer NOT NULL,
+    delivery_note character varying(255),
+    delivery_end_time character varying(255),
+    radius integer,
+    status integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.store OWNER TO postgres;
+
+--
+-- Name: store_categories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.store_categories (
+    id integer NOT NULL,
+    store_id integer NOT NULL,
+    category_id integer NOT NULL,
+    status integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.store_categories OWNER TO postgres;
+
+--
+-- Name: store_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.store_categories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.store_categories_id_seq OWNER TO postgres;
+
+--
+-- Name: store_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.store_categories_id_seq OWNED BY public.store_categories.id;
+
+
+--
+-- Name: store_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.store_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.store_id_seq OWNER TO postgres;
+
+--
+-- Name: store_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.store_id_seq OWNED BY public.store.id;
+
+
+--
+-- Name: store_item; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.store_item (
+    id integer NOT NULL,
+    store_id integer NOT NULL,
+    menu_category_id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    brand_name character varying(255),
+    image character varying(255),
+    packaged integer,
+    status integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.store_item OWNER TO postgres;
+
+--
+-- Name: store_item_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.store_item_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.store_item_id_seq OWNER TO postgres;
+
+--
+-- Name: store_item_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.store_item_id_seq OWNED BY public.store_item.id;
+
+
+--
+-- Name: store_item_uploads; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.store_item_uploads (
+    id integer NOT NULL,
+    store_id integer NOT NULL,
+    user_id integer NOT NULL,
+    file_name character varying(255) NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.store_item_uploads OWNER TO postgres;
+
+--
+-- Name: store_item_uploads_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.store_item_uploads_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.store_item_uploads_id_seq OWNER TO postgres;
+
+--
+-- Name: store_item_uploads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.store_item_uploads_id_seq OWNED BY public.store_item_uploads.id;
+
+
+--
+-- Name: store_item_variable; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.store_item_variable (
+    id integer NOT NULL,
+    store_item_id integer,
+    quantity integer,
+    quantity_unit integer,
+    mrp integer,
+    selling_price integer,
+    status integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.store_item_variable OWNER TO postgres;
+
+--
+-- Name: store_item_variable_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.store_item_variable_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.store_item_variable_id_seq OWNER TO postgres;
+
+--
+-- Name: store_item_variable_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.store_item_variable_id_seq OWNED BY public.store_item_variable.id;
+
+
+--
+-- Name: store_localities; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.store_localities (
+    id integer NOT NULL,
+    store_id integer NOT NULL,
+    locality_id integer NOT NULL,
+    status integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.store_localities OWNER TO postgres;
+
+--
+-- Name: store_localities_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.store_localities_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.store_localities_id_seq OWNER TO postgres;
+
+--
+-- Name: store_localities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.store_localities_id_seq OWNED BY public.store_localities.id;
+
+
+--
+-- Name: store_menu_categories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.store_menu_categories (
+    id integer NOT NULL,
+    store_id integer NOT NULL,
+    menu_category_id integer NOT NULL,
+    status integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.store_menu_categories OWNER TO postgres;
+
+--
+-- Name: store_menu_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.store_menu_categories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.store_menu_categories_id_seq OWNER TO postgres;
+
+--
+-- Name: store_menu_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.store_menu_categories_id_seq OWNED BY public.store_menu_categories.id;
+
+
+--
+-- Name: store_merchants; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.store_merchants (
+    id integer NOT NULL,
+    store_id integer NOT NULL,
+    merchant_id integer NOT NULL,
+    status integer NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.store_merchants OWNER TO postgres;
+
+--
+-- Name: store_merchants_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.store_merchants_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.store_merchants_id_seq OWNER TO postgres;
+
+--
+-- Name: store_merchants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.store_merchants_id_seq OWNED BY public.store_merchants.id;
+
+
+--
+-- Name: super_admin; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.super_admin (
+    id integer NOT NULL,
+    email character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    password_hash character varying(100),
+    active boolean,
+    phone character varying(255) NOT NULL,
+    role character varying(255),
+    email_verified_at timestamp without time zone,
+    phone_verified_at timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.super_admin OWNER TO postgres;
+
+--
+-- Name: super_admin_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.super_admin_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.super_admin_id_seq OWNER TO postgres;
+
+--
+-- Name: super_admin_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.super_admin_id_seq OWNED BY public.super_admin.id;
+
+
+--
+-- Name: user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."user" (
+    id integer NOT NULL,
+    email character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    password_hash character varying(100),
+    active boolean,
+    phone character varying(255) NOT NULL,
+    role character varying(255),
+    email_verified_at timestamp without time zone,
+    phone_verified_at timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public."user" OWNER TO postgres;
+
+--
+-- Name: user_address; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_address (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    address1 character varying(255),
+    address2 character varying(255),
+    address3 character varying(255),
+    landmark character varying(255),
+    phone character varying(255),
+    latitude character varying(255),
+    longitude character varying(255),
+    status integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.user_address OWNER TO postgres;
+
+--
+-- Name: user_address_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.user_address_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_address_id_seq OWNER TO postgres;
+
+--
+-- Name: user_address_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.user_address_id_seq OWNED BY public.user_address.id;
+
+
+--
+-- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_id_seq OWNER TO postgres;
+
+--
+-- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
+
+
+--
+-- Name: admin id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.admin ALTER COLUMN id SET DEFAULT nextval('public.admin_id_seq'::regclass);
+
+
+--
+-- Name: blacklist_tokens id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blacklist_tokens ALTER COLUMN id SET DEFAULT nextval('public.blacklist_tokens_id_seq'::regclass);
+
+
+--
+-- Name: categories id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.categories_id_seq'::regclass);
+
+
+--
+-- Name: cities id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cities ALTER COLUMN id SET DEFAULT nextval('public.cities_id_seq'::regclass);
+
+
+--
+-- Name: city_categories id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.city_categories ALTER COLUMN id SET DEFAULT nextval('public.city_categories_id_seq'::regclass);
+
+
+--
+-- Name: coupon_categories id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupon_categories ALTER COLUMN id SET DEFAULT nextval('public.coupon_categories_id_seq'::regclass);
+
+
+--
+-- Name: coupon_cities id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupon_cities ALTER COLUMN id SET DEFAULT nextval('public.coupon_cities_id_seq'::regclass);
+
+
+--
+-- Name: coupons id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupons ALTER COLUMN id SET DEFAULT nextval('public.coupons_id_seq'::regclass);
+
+
+--
+-- Name: item_order_lists id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_order_lists ALTER COLUMN id SET DEFAULT nextval('public.item_order_lists_id_seq'::regclass);
+
+
+--
+-- Name: item_orders id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_orders ALTER COLUMN id SET DEFAULT nextval('public.item_orders_id_seq'::regclass);
+
+
+--
+-- Name: localities id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.localities ALTER COLUMN id SET DEFAULT nextval('public.localities_id_seq'::regclass);
+
+
+--
+-- Name: menu_categories id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.menu_categories ALTER COLUMN id SET DEFAULT nextval('public.menu_categories_id_seq'::regclass);
+
+
+--
+-- Name: merchant id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.merchant ALTER COLUMN id SET DEFAULT nextval('public.merchant_id_seq'::regclass);
+
+
+--
+-- Name: quantity_unit id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.quantity_unit ALTER COLUMN id SET DEFAULT nextval('public.quantity_unit_id_seq'::regclass);
+
+
+--
+-- Name: store id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store ALTER COLUMN id SET DEFAULT nextval('public.store_id_seq'::regclass);
+
+
+--
+-- Name: store_categories id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_categories ALTER COLUMN id SET DEFAULT nextval('public.store_categories_id_seq'::regclass);
+
+
+--
+-- Name: store_item id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_item ALTER COLUMN id SET DEFAULT nextval('public.store_item_id_seq'::regclass);
+
+
+--
+-- Name: store_item_uploads id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_item_uploads ALTER COLUMN id SET DEFAULT nextval('public.store_item_uploads_id_seq'::regclass);
+
+
+--
+-- Name: store_item_variable id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_item_variable ALTER COLUMN id SET DEFAULT nextval('public.store_item_variable_id_seq'::regclass);
+
+
+--
+-- Name: store_localities id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_localities ALTER COLUMN id SET DEFAULT nextval('public.store_localities_id_seq'::regclass);
+
+
+--
+-- Name: store_menu_categories id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_menu_categories ALTER COLUMN id SET DEFAULT nextval('public.store_menu_categories_id_seq'::regclass);
+
+
+--
+-- Name: store_merchants id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_merchants ALTER COLUMN id SET DEFAULT nextval('public.store_merchants_id_seq'::regclass);
+
+
+--
+-- Name: super_admin id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.super_admin ALTER COLUMN id SET DEFAULT nextval('public.super_admin_id_seq'::regclass);
+
+
+--
+-- Name: user id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
+
+
+--
+-- Name: user_address id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_address ALTER COLUMN id SET DEFAULT nextval('public.user_address_id_seq'::regclass);
+
+
+--
+-- Data for Name: admin; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.admin (id, email, name, password_hash, active, phone, role, email_verified_at, phone_verified_at, created_at, updated_at, deleted_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.alembic_version (version_num) FROM stdin;
+177f74221b44
+\.
+
+
+--
+-- Data for Name: blacklist_tokens; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.blacklist_tokens (id, token, blacklisted_on) FROM stdin;
+1	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjQ1NDEzOTAsImlhdCI6MTYyNDQ1NDk4NSwic3ViIjoxLCJyb2xlIjoibWVyY2hhbnQifQ.SS4pQiG0-C2tIPUhjE3eBDS6y7DyvwSOJbnm7fdktFA	2021-06-24 08:02:32.322207
+2	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjQ2MDg1OTgsImlhdCI6MTYyNDUyMjE5Mywic3ViIjoxLCJyb2xlIjoic3VwZXJfYWRtaW4ifQ.X--mPi09ss9TukUepmLbKYkYhfRxTFNu2SzEciABGpQ	2021-06-24 08:26:49.09418
+3	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjQ2MTc1MDMsImlhdCI6MTYyNDUzMTA5OCwic3ViIjoxLCJyb2xlIjoic3VwZXJfYWRtaW4ifQ.j3sDtZ0KndTmoS_bS-gNnLh0OQjgxIBQFMPmdTz2ISo	2021-06-24 10:40:09.722655
+4	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjQ2MTczMDEsImlhdCI6MTYyNDUzMDg5Niwic3ViIjo1LCJyb2xlIjoibWVyY2hhbnQifQ.xZjMh9Yd2jXr1pP4qM6G0PdagoXuJBxG-Dd7ll4F1EM	2021-06-24 10:47:41.476964
+5	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjQ2MTgwNjksImlhdCI6MTYyNDUzMTY2NCwic3ViIjo1LCJyb2xlIjoibWVyY2hhbnQifQ.sy_3oB2PK-K1b5FAGfz1ob_PPUm9tXJRxSHW2FhiRLk	2021-06-24 11:35:14.373458
+6	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjQ2MjA5MjUsImlhdCI6MTYyNDUzNDUyMCwic3ViIjoxLCJyb2xlIjoic3VwZXJfYWRtaW4ifQ.pEjwPWv2YAoGAQp76Xb7RMZWPc92s_ekv1gXB33uC88	2021-06-24 11:43:59.151712
+7	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjQ3MTc3NjQsImlhdCI6MTYyNDYzMTM1OSwic3ViIjoxLCJyb2xlIjoic3VwZXJfYWRtaW4ifQ.VLQXDLZtiWEecgi2PxZSrESgStNuxTTjFLjdh82QHt4	2021-06-25 14:39:10.872523
+8	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjQ3MTgzNTksImlhdCI6MTYyNDYzMTk1NCwic3ViIjoxLCJyb2xlIjoic3VwZXJfYWRtaW4ifQ.Oqf_9MJYilsWzauibpG5_rxSytneZpPP0GWs-8pXNXU	2021-06-25 14:47:06.342183
+9	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjQ3MTg4NDAsImlhdCI6MTYyNDYzMjQzNSwic3ViIjoxLCJyb2xlIjoic3VwZXJfYWRtaW4ifQ.92v4Xw1Trd0_12frq9EX4ZXWi1XjZ3ZUbIu8NBGYUxI	2021-06-25 14:50:03.712531
+10	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjQ3MDM2MTgsImlhdCI6MTYyNDYxNzIxMywic3ViIjoxLCJyb2xlIjoic3VwZXJfYWRtaW4ifQ.DmvjbUS9oQm07CUNgh65E-Q5li28fDvuZ7W5-kArcVI	2021-06-25 15:36:16.170531
+\.
+
+
+--
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.categories (id, name, image, status, created_at, deleted_at, updated_at) FROM stdin;
+4	Cat3	string	0	2021-06-24 10:19:32.785617	\N	\N
+2	Cat1	theImage	1	2021-06-24 10:19:17.86532	\N	2021-06-25 14:28:52.48119
+3	Cat2	theImage	0	2021-06-24 10:19:26.345152	\N	2021-06-25 14:28:56.628889
+1	daily needs	theImage	1	2021-06-24 06:38:36.727497	\N	2021-06-25 15:28:24.160673
+\.
+
+
+--
+-- Data for Name: cities; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.cities (id, name, code, status, help_number, whats_app_number, created_at, deleted_at, updated_at) FROM stdin;
+2	psss	P	0	4	4	2021-06-24 11:35:23.681506	2021-06-24 11:36:33.564567	2021-06-24 11:36:16.193102
+1	Kolkata	KOL	0	6497852013	7895451123	2021-06-24 11:08:11.608216	\N	2021-06-25 02:38:25.49575
+3	Pune	PUNE	0	7964312058	6358963021	2021-06-25 02:28:49.132562	\N	2021-06-25 03:07:24.717534
+4	Bengaluru	BENG	0	4546192763	5467023164	2021-06-25 02:28:58.768754	\N	2021-06-25 03:07:38.849499
+\.
+
+
+--
+-- Data for Name: city_categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.city_categories (id, city_id, category_id, status, created_at, updated_at, deleted_at) FROM stdin;
+3	1	3	1	\N	\N	\N
+4	1	4	1	\N	\N	\N
+6	3	3	1	\N	\N	\N
+7	3	2	1	\N	\N	\N
+8	4	2	1	\N	\N	\N
+10	4	3	1	\N	\N	\N
+11	4	4	1	\N	\N	\N
+12	1	1	1	\N	\N	\N
+13	4	1	1	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: coupon_categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.coupon_categories (id, category_id, coupon_id, status, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: coupon_cities; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.coupon_cities (id, city_id, coupon_id, status, created_at, updated_at, deleted_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: coupons; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.coupons (id, code, title, description, banner_1, banner_2, level, target, deduction_type, deduction_amount, min_order_value, max_deduction, user_id, previous_order_track, max_user_usage_limit, expired_at, status, order_id, is_display, created_at, updated_at, deleted_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: item_order_lists; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.item_order_lists (id, item_order_id, store_item_id, store_item_variable_id, product_packaged, quantity, removed_by, status, created_at, updated_at, deleted_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: item_orders; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.item_orders (id, user_id, store_id, slug, order_total, coupon_id, order_total_discount, final_order_total, delivery_fee, grand_order_total, initial_paid, order_created, order_confirmed, ready_to_pack, order_paid, order_pickedup, order_delivered, delivery_date, user_address_id, delivery_slot_id, da_id, status, merchant_transfer_at, merchant_transaction_id, txnid, gateway, transaction_status, cancelled_by, created_at, updated_at, deleted_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: localities; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.localities (id, city_id, name, code, pin, delivery_fee, start_time, end_time, status, created_at, deleted_at, updated_at) FROM stdin;
+3	1	h	h	4	4	2021-06-2417:09:57	2021-06-2417:09:57	0	2021-06-24 11:41:36.315927	2021-06-24 11:41:52.139783	\N
+2	1	string	string	0	string	string	string	0	2021-06-24 11:31:03.531635	2021-06-24 11:42:56.137348	\N
+1	1	string	string	0	string	string	string	0	2021-06-24 11:09:14.055216	2021-06-25 02:29:11.179429	\N
+11	4	jnbbn	bfc	44123	424	2021-06-2508:01:04	2021-06-2508:01:04	0	2021-06-25 02:31:31.238821	\N	\N
+4	1	Howra	howr	123985	100	2021-06-24T04:30:47.000Z	2021-06-2417:12:47	0	2021-06-24 11:43:18.775846	\N	2021-06-25 02:52:47.048633
+6	1	Dharmatala	dhmt	100032	100	2021-06-25T00:30:04.000Z	2021-06-25T12:30:04.000Z	0	2021-06-25 02:29:40.32889	\N	2021-06-25 02:55:05.209585
+5	1	Salt Lake	slt	2000300	200	2021-06-25T03:30:04.000Z	2021-06-25T10:30:04.000Z	0	2021-06-25 02:29:22.852745	\N	2021-06-25 02:57:07.999805
+12	1	rana	lll	456	66	2021-06-25T03:30:04.000Z	2021-06-25T10:30:04.000Z	0	2021-06-25 02:57:32.637869	2021-06-25 02:57:40.008867	\N
+8	3	Gandhi Road	 gdr	788544	50	2021-06-25T03:30:47.000Z	2021-06-25T10:30:47.000Z	0	2021-06-25 02:30:04.608732	\N	2021-06-25 02:59:25.68673
+7	3	IT Bazar	itb	300255	100	2021-06-25T01:30:47.000Z	2021-06-25T11:30:47.000Z	0	2021-06-25 02:29:55.389624	\N	2021-06-25 03:02:06.248291
+9	3	jn	g	6	5	2021-06-2507:59:47	2021-06-2507:59:47	0	2021-06-25 02:30:19.359069	2021-06-25 03:02:10.548708	\N
+10	4	Subash Sarani	sbs	462130	00	2021-06-25T03:30:04.000Z	2021-06-25T14:30:04.000Z	0	2021-06-25 02:31:15.259065	\N	2021-06-25 03:06:20.81828
+\.
+
+
+--
+-- Data for Name: menu_categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.menu_categories (id, category_id, name, image, slug, status, created_at, updated_at, deleted_at) FROM stdin;
+1	1	LOL	anImage	L-379	0	2021-06-24 08:21:56.492836	\N	\N
+2	1	menu1	string	string	0	2021-06-24 10:27:27.662416	\N	\N
+3	1	menu2	string	string	0	2021-06-24 10:27:38.411003	\N	\N
+4	2	menu3	string	string	0	2021-06-24 10:27:52.559431	\N	\N
+\.
+
+
+--
+-- Data for Name: merchant; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.merchant (id, email, name, password_hash, active, phone, role, email_verified_at, phone_verified_at, created_at, updated_at, deleted_at) FROM stdin;
+2	hellodear@gmail.com	hello123	$2b$12$lab3/FkaaMJrTDKoSuuK3uIu6zBqgWZDRzPyHE.0UBw2xPqRSoma2	f	123456789	merchant	\N	\N	2021-06-24 02:44:18.634557	2021-06-24 02:43:17.113885	\N
+3	sim@gmail.com	string	$2b$12$HA1eMCu9ine9N7/4EEASPubiknXn0mKKaTDOtNa5XJzeopvTvUMe2	f	2221117770	merchant	\N	\N	2021-06-24 07:03:45.030496	2021-06-24 04:44:28.507111	\N
+1	string	Merchant1	$2b$12$fc5ogKC73APiMvQPGy1cWumIm6ZcxBfQggKSie2Z8wSBPLMa7.Ug2	f	9876543210	merchant	\N	\N	2021-06-24 02:42:45.665083	2021-06-24 08:01:50.545182	\N
+4	mar@gmail.com	ssss	$2b$12$RCZ954xU8CHg2DQQD8efZuRY2pklTZLjKQ9l7ytXxMBgUZAIeCLAW	f	8888888888	merchant	\N	\N	2021-06-24 08:20:26.302189	2021-06-24 06:31:17.828009	\N
+5	ritika@gmail.com	Ritika prajapati	$2b$12$Xbqg/pq.RWdB4URoykZdreCFs/AQE/3kAMIvGIFaE42MnSiRH7B.C	f	8757445651	merchant	\N	\N	2021-06-24 08:37:45.827107	2021-06-25 11:37:11.26815	\N
+6	string@mail.ty	theMerch	$2b$12$M20s0yhuIflOb1r8CtjFq.ylVIv5eIc86o5g4ypQ8RCD6B3I86XIi	f	string	merchant	\N	\N	2021-06-25 12:01:32.965276	2021-06-25 12:01:32.959533	\N
+7	sumitdas@gmail.com	Sumit Das	$2b$12$KFuIC5NOKv.G6uS9xlgXTO4lGqP.7glXeQrSJm7XeehG8sqi1dkcS	f	8956230147	merchant	\N	\N	2021-06-25 15:04:38.789131	2021-06-25 15:04:38.783392	\N
+\.
+
+
+--
+-- Data for Name: quantity_unit; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.quantity_unit (id, name, short_name, conversion, type_details, status, created_at, updated_at, deleted_at) FROM stdin;
+1	quantity123	qua1	sqwanty1	hello	1	2021-06-27 08:04:12.599127	\N	\N
+2	quant123	quaa1	sdotqwanty1	hello-dot	1	2021-06-27 08:04:44.496782	\N	\N
+3	quantity5	q5	quantity	quantity345	1	2021-06-27 08:07:16.84031	\N	\N
+\.
+
+
+--
+-- Data for Name: store; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.store (id, name, slug, owner_name, shopkeeper_name, image, address_line_1, address_line_2, store_latitude, store_longitude, pay_later, delivery_mode, delivery_note, delivery_end_time, radius, status, created_at, updated_at, deleted_at) FROM stdin;
+1	hey	hey	Shishir	string	theStoreImage	string	string	11.11	12.234	0	0	string	string	1000	1	2021-06-24 02:42:45.66126	2021-06-25 11:47:46.843744	2021-06-25 11:58:11.455823
+3	sim	sim	sim	sim	theStoreImage	string	string	19.0759837	72.8776559	0	0	string	string	0	1	2021-06-24 07:03:45.026955	2021-06-25 12:22:22.553166	\N
+2	Hello	Hello	Shishir123	heljdjihb	theStoreImage	string	string	101.11	102.234	0	0	string	string	1000	1	2021-06-24 02:44:18.632234	2021-06-25 13:06:16.339776	\N
+4	The Store	The Store	string	string	theStoreImage	string	string	0	0	0	0	string	string	0	1	2021-06-25 12:01:32.962894	2021-06-25 14:29:07.728957	\N
+5	Lassi Store	Lassi Store	Sumit Das	Sumit Das	string	Bengaluru	GT Road	500	500	0	0	Best Store	10.00pm	0	1	2021-06-25 15:04:38.78668	\N	\N
+\.
+
+
+--
+-- Data for Name: store_categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.store_categories (id, store_id, category_id, status, created_at, updated_at, deleted_at) FROM stdin;
+1	1	1	1	2021-06-24 10:22:04.014592	\N	\N
+2	1	2	1	2021-06-24 10:22:04.02029	\N	\N
+3	1	3	1	2021-06-24 10:22:04.023359	\N	\N
+4	2	1	1	2021-06-27 10:26:01.834845	\N	\N
+5	2	2	1	2021-06-27 10:26:01.839631	\N	\N
+6	2	3	1	2021-06-27 10:26:01.843095	\N	\N
+7	3	1	1	2021-06-27 10:26:08.23653	\N	\N
+8	3	2	1	2021-06-27 10:26:08.241634	\N	\N
+9	3	3	1	2021-06-27 10:26:08.245481	\N	\N
+10	4	1	1	2021-06-27 10:26:17.541596	\N	\N
+\.
+
+
+--
+-- Data for Name: store_item; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.store_item (id, store_id, menu_category_id, name, brand_name, image, packaged, status, created_at, updated_at, deleted_at) FROM stdin;
+1	1	1	mango	sim	string	0	1	2021-06-24 12:21:20.462988	\N	\N
+2	1	1	apple	sim	string	0	1	2021-06-24 13:15:53.585006	\N	\N
+3	1	1	item_one	geeksforgeeks	geeks	0	1	2021-06-26 15:55:30.742216	\N	\N
+4	1	3	item_two	geeksforgeeks	geeks	0	1	2021-06-27 08:06:02.755099	\N	\N
+5	1	3	item_three	geeksforgeeks	geeks	0	1	2021-06-27 08:06:13.114451	\N	\N
+6	1	3	item_four	geeksforgeeks	geeks	0	1	2021-06-27 08:06:22.884738	\N	\N
+7	1	3	item_five	geeksforgeeks	geeks	0	1	2021-06-27 08:08:10.254948	\N	\N
+8	1	1	item_six	geeksforgeeks	geeks	0	1	2021-06-27 08:09:56.414865	\N	\N
+9	1	1	item_seven	geeksforgeeks	geeks	0	1	2021-06-27 08:10:06.101864	\N	\N
+10	1	1	item_eight	geeksforgeeks	geeks	0	1	2021-06-27 08:10:19.1474	\N	\N
+\.
+
+
+--
+-- Data for Name: store_item_uploads; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.store_item_uploads (id, store_id, user_id, file_name, created_at, updated_at, deleted_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: store_item_variable; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.store_item_variable (id, store_item_id, quantity, quantity_unit, mrp, selling_price, status, created_at, updated_at, deleted_at) FROM stdin;
+12	3	2	2	1000	300	1	2021-06-27 08:05:34.601148	\N	\N
+13	4	1	1	1000	300	1	2021-06-27 08:06:02.760999	\N	\N
+14	5	1	1	1000	300	1	2021-06-27 08:06:13.117906	\N	\N
+15	6	1	1	1000	300	1	2021-06-27 08:06:22.88903	\N	\N
+16	7	1	1	1000	300	1	2021-06-27 08:08:10.258841	\N	\N
+17	8	1	1	1000	300	1	2021-06-27 08:09:56.419967	\N	\N
+18	9	1	1	1000	300	1	2021-06-27 08:10:06.10534	\N	\N
+19	10	1	1	1000	300	1	2021-06-27 08:10:19.151973	\N	\N
+\.
+
+
+--
+-- Data for Name: store_localities; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.store_localities (id, store_id, locality_id, status, created_at, updated_at, deleted_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: store_menu_categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.store_menu_categories (id, store_id, menu_category_id, status, created_at, updated_at, deleted_at) FROM stdin;
+1	1	1	1	2021-06-24 10:24:27.382102	\N	\N
+3	2	1	1	2021-06-24 10:33:03.849883	\N	\N
+4	2	2	1	2021-06-24 10:33:03.853935	\N	\N
+5	2	3	1	2021-06-24 10:33:03.856635	\N	\N
+8	1	2	1	2021-06-26 15:51:16.672241	\N	\N
+9	1	3	1	2021-06-26 15:51:16.676836	\N	\N
+10	1	4	1	2021-06-26 15:51:16.679934	\N	\N
+\.
+
+
+--
+-- Data for Name: store_merchants; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.store_merchants (id, store_id, merchant_id, status, created_at, updated_at, deleted_at) FROM stdin;
+1	1	1	1	2021-06-24 02:42:45.982698	\N	\N
+2	2	2	1	2021-06-24 02:44:18.941779	\N	\N
+3	3	3	1	2021-06-24 07:03:45.339722	\N	\N
+4	4	6	1	2021-06-25 12:01:33.274154	\N	\N
+5	5	7	1	2021-06-25 15:04:39.096145	\N	\N
+\.
+
+
+--
+-- Data for Name: super_admin; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.super_admin (id, email, name, password_hash, active, phone, role, email_verified_at, phone_verified_at, created_at, updated_at, deleted_at) FROM stdin;
+1	qwerty@gmail.com	Ratul	$2b$12$p8VYLH9HU/bBahLf4fAsVuhFYWLBhB8EaJnOgxfTVF3Aq1dXPGcOy	f	9956630830	super_admin	\N	\N	2021-06-24 02:34:49.774782	2021-06-24 02:34:49.774782	\N
+\.
+
+
+--
+-- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."user" (id, email, name, password_hash, active, phone, role, email_verified_at, phone_verified_at, created_at, updated_at, deleted_at) FROM stdin;
+1	stringqq@gmail.com	strinqq@g	$2b$12$TdzNXqkO0ed.qEs6C4oC.Ot6N/6IszP9lfCj.t1LU.ToxDCRuyhqO	f	strinqqqqg	customer	\N	\N	2021-06-24 06:31:17.521948	2021-06-24 04:02:27.204714	\N
+3	shishir@gmail.com	shishir	$2b$12$sLPEz1IkmxpjG7CUWXvJBOd1lGsGaDQERwZFCHTA2SWeoBj0pQKLi	f	strinddddg	customer	\N	\N	2021-06-24 13:04:54.924586	2021-06-24 13:04:54.922044	\N
+4	anooplakhera100@gmail.com	anoop	$2b$12$KP.jp6JFi2dSmplxbEewc.GO2P4rwoRWHm6rOyXeh5fedrAAfNmHO	f	7834990337	customer	\N	\N	2021-06-24 17:17:02.021668	2021-06-24 16:54:33.823598	\N
+5	shishi@gmail.com	strinxxg	$2b$12$elljZOrZDMF8JJnk4bIjNux0oksX4baQOJcBzuLsg3xpEA6nVqMaK	f	strinxxg	customer	\N	\N	2021-06-24 19:01:35.479769	2021-06-24 19:01:35.477053	\N
+6	strrrtttfffing	string	$2b$12$B6sQjMWcI0XF.qNhaLL9PuGgjkvRkZL.N281/c0BDRZnjRSd018ba	f	strazazing	customer	\N	\N	2021-06-25 02:52:35.033802	2021-06-25 02:52:35.031598	\N
+7	sjjsjsjssjsjsj@gmail.com	strinwwwg@gmail.com	$2b$12$qD0FN2DDUEValj91.y.EdeFN1LZFu8jR2i9JU2TgSIu3zqStn.4jS	f	strinxxxxxddddg	customer	\N	\N	2021-06-25 10:26:21.963114	2021-06-25 10:26:21.960847	\N
+8	string	string	$2b$12$/Wx9MYzC0axNcXMS0NJwRu/GNJbxBz40HFWH7KhOE3H9Gtq3Y.55K	f	string	customer	\N	\N	2021-06-26 12:39:23.506455	2021-06-26 12:39:23.504346	\N
+2	simpi21@gmail.com	Simpi Singh k	$2b$12$P4.21Elw1NTSOmIz2OAG7uDZDtZ012M2DJYMZxFCTDLvHFjcjr3cu	f	1234567890	customer	\N	\N	2021-06-24 09:10:17.718912	2021-06-26 13:18:02.620422	\N
+\.
+
+
+--
+-- Data for Name: user_address; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.user_address (id, user_id, address1, address2, address3, landmark, phone, latitude, longitude, status, created_at, updated_at, deleted_at) FROM stdin;
+1	2	b wing green view sosaity, Lower Parel, Friends Colony, Babhai Naka, Borivali West, Mumbai, Maharashtra 400070, India	#121	address3	landmark kkk	1234567890	19.0759837	72.8776559	1	2021-06-26 13:25:32.292714	\N	\N
+3	2	address1 kkk	address2 kkk	address3 kkk	landmak kkkk	1223456789	19.0759837	72.8776559	1	2021-06-26 13:27:07.972192	\N	\N
+\.
+
+
+--
+-- Name: admin_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.admin_id_seq', 1, false);
+
+
+--
+-- Name: blacklist_tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.blacklist_tokens_id_seq', 10, true);
+
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.categories_id_seq', 4, true);
+
+
+--
+-- Name: cities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.cities_id_seq', 4, true);
+
+
+--
+-- Name: city_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.city_categories_id_seq', 13, true);
+
+
+--
+-- Name: coupon_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.coupon_categories_id_seq', 1, false);
+
+
+--
+-- Name: coupon_cities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.coupon_cities_id_seq', 1, false);
+
+
+--
+-- Name: coupons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.coupons_id_seq', 1, false);
+
+
+--
+-- Name: item_order_lists_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.item_order_lists_id_seq', 1, false);
+
+
+--
+-- Name: item_orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.item_orders_id_seq', 1, false);
+
+
+--
+-- Name: localities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.localities_id_seq', 12, true);
+
+
+--
+-- Name: menu_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.menu_categories_id_seq', 4, true);
+
+
+--
+-- Name: merchant_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.merchant_id_seq', 7, true);
+
+
+--
+-- Name: quantity_unit_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.quantity_unit_id_seq', 3, true);
+
+
+--
+-- Name: store_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.store_categories_id_seq', 10, true);
+
+
+--
+-- Name: store_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.store_id_seq', 5, true);
+
+
+--
+-- Name: store_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.store_item_id_seq', 10, true);
+
+
+--
+-- Name: store_item_uploads_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.store_item_uploads_id_seq', 1, false);
+
+
+--
+-- Name: store_item_variable_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.store_item_variable_id_seq', 19, true);
+
+
+--
+-- Name: store_localities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.store_localities_id_seq', 1, false);
+
+
+--
+-- Name: store_menu_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.store_menu_categories_id_seq', 10, true);
+
+
+--
+-- Name: store_merchants_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.store_merchants_id_seq', 5, true);
+
+
+--
+-- Name: super_admin_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.super_admin_id_seq', 1, true);
+
+
+--
+-- Name: user_address_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.user_address_id_seq', 3, true);
+
+
+--
+-- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.user_id_seq', 8, true);
+
+
+--
+-- Name: admin admin_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.admin
+    ADD CONSTRAINT admin_email_key UNIQUE (email);
+
+
+--
+-- Name: admin admin_phone_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.admin
+    ADD CONSTRAINT admin_phone_key UNIQUE (phone);
+
+
+--
+-- Name: admin admin_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.admin
+    ADD CONSTRAINT admin_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.alembic_version
+    ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
+
+
+--
+-- Name: blacklist_tokens blacklist_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blacklist_tokens
+    ADD CONSTRAINT blacklist_tokens_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: blacklist_tokens blacklist_tokens_token_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blacklist_tokens
+    ADD CONSTRAINT blacklist_tokens_token_key UNIQUE (token);
+
+
+--
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cities cities_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cities
+    ADD CONSTRAINT cities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: city_categories city_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.city_categories
+    ADD CONSTRAINT city_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: coupon_categories coupon_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupon_categories
+    ADD CONSTRAINT coupon_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: coupon_cities coupon_cities_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupon_cities
+    ADD CONSTRAINT coupon_cities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: coupons coupons_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupons
+    ADD CONSTRAINT coupons_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: item_order_lists item_order_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_order_lists
+    ADD CONSTRAINT item_order_lists_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: item_orders item_orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_orders
+    ADD CONSTRAINT item_orders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: localities localities_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.localities
+    ADD CONSTRAINT localities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: menu_categories menu_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.menu_categories
+    ADD CONSTRAINT menu_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: merchant merchant_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.merchant
+    ADD CONSTRAINT merchant_email_key UNIQUE (email);
+
+
+--
+-- Name: merchant merchant_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.merchant
+    ADD CONSTRAINT merchant_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: quantity_unit quantity_unit_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.quantity_unit
+    ADD CONSTRAINT quantity_unit_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: store_categories store_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_categories
+    ADD CONSTRAINT store_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: store_item store_item_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_item
+    ADD CONSTRAINT store_item_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: store_item_uploads store_item_uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_item_uploads
+    ADD CONSTRAINT store_item_uploads_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: store_item_variable store_item_variable_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_item_variable
+    ADD CONSTRAINT store_item_variable_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: store_localities store_localities_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_localities
+    ADD CONSTRAINT store_localities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: store_menu_categories store_menu_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_menu_categories
+    ADD CONSTRAINT store_menu_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: store_merchants store_merchants_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_merchants
+    ADD CONSTRAINT store_merchants_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: store store_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store
+    ADD CONSTRAINT store_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: super_admin super_admin_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.super_admin
+    ADD CONSTRAINT super_admin_email_key UNIQUE (email);
+
+
+--
+-- Name: super_admin super_admin_phone_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.super_admin
+    ADD CONSTRAINT super_admin_phone_key UNIQUE (phone);
+
+
+--
+-- Name: super_admin super_admin_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.super_admin
+    ADD CONSTRAINT super_admin_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_address user_address_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_address
+    ADD CONSTRAINT user_address_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user user_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT user_email_key UNIQUE (email);
+
+
+--
+-- Name: user user_phone_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT user_phone_key UNIQUE (phone);
+
+
+--
+-- Name: user user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ix_coupons_code; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_coupons_code ON public.coupons USING btree (code);
+
+
+--
+-- Name: ix_coupons_expired_at; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_coupons_expired_at ON public.coupons USING btree (expired_at);
+
+
+--
+-- Name: ix_coupons_status; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_coupons_status ON public.coupons USING btree (status);
+
+
+--
+-- Name: ix_coupons_target; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_coupons_target ON public.coupons USING btree (target);
+
+
+--
+-- Name: city_categories city_categories_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.city_categories
+    ADD CONSTRAINT city_categories_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: city_categories city_categories_city_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.city_categories
+    ADD CONSTRAINT city_categories_city_id_fkey FOREIGN KEY (city_id) REFERENCES public.cities(id) ON DELETE CASCADE;
+
+
+--
+-- Name: coupon_categories coupon_categories_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupon_categories
+    ADD CONSTRAINT coupon_categories_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id);
+
+
+--
+-- Name: coupon_categories coupon_categories_coupon_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupon_categories
+    ADD CONSTRAINT coupon_categories_coupon_id_fkey FOREIGN KEY (coupon_id) REFERENCES public.coupons(id);
+
+
+--
+-- Name: coupon_cities coupon_cities_city_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupon_cities
+    ADD CONSTRAINT coupon_cities_city_id_fkey FOREIGN KEY (city_id) REFERENCES public.cities(id);
+
+
+--
+-- Name: coupon_cities coupon_cities_coupon_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupon_cities
+    ADD CONSTRAINT coupon_cities_coupon_id_fkey FOREIGN KEY (coupon_id) REFERENCES public.coupons(id);
+
+
+--
+-- Name: coupons coupons_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coupons
+    ADD CONSTRAINT coupons_user_id_fkey FOREIGN KEY (user_id) REFERENCES public."user"(id);
+
+
+--
+-- Name: item_orders item_orders_store_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_orders
+    ADD CONSTRAINT item_orders_store_id_fkey FOREIGN KEY (store_id) REFERENCES public.store(id);
+
+
+--
+-- Name: item_orders item_orders_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.item_orders
+    ADD CONSTRAINT item_orders_user_id_fkey FOREIGN KEY (user_id) REFERENCES public."user"(id);
+
+
+--
+-- Name: localities localities_city_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.localities
+    ADD CONSTRAINT localities_city_id_fkey FOREIGN KEY (city_id) REFERENCES public.cities(id);
+
+
+--
+-- Name: menu_categories menu_categories_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.menu_categories
+    ADD CONSTRAINT menu_categories_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id);
+
+
+--
+-- Name: store_categories store_categories_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_categories
+    ADD CONSTRAINT store_categories_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: store_categories store_categories_store_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_categories
+    ADD CONSTRAINT store_categories_store_id_fkey FOREIGN KEY (store_id) REFERENCES public.store(id) ON DELETE CASCADE;
+
+
+--
+-- Name: store_item store_item_menu_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_item
+    ADD CONSTRAINT store_item_menu_category_id_fkey FOREIGN KEY (menu_category_id) REFERENCES public.menu_categories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: store_item store_item_store_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_item
+    ADD CONSTRAINT store_item_store_id_fkey FOREIGN KEY (store_id) REFERENCES public.store(id) ON DELETE CASCADE;
+
+
+--
+-- Name: store_item_variable store_item_variable_quantity_unit_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_item_variable
+    ADD CONSTRAINT store_item_variable_quantity_unit_fkey FOREIGN KEY (quantity_unit) REFERENCES public.quantity_unit(id) ON DELETE CASCADE;
+
+
+--
+-- Name: store_item_variable store_item_variable_store_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_item_variable
+    ADD CONSTRAINT store_item_variable_store_item_id_fkey FOREIGN KEY (store_item_id) REFERENCES public.store_item(id) ON DELETE CASCADE;
+
+
+--
+-- Name: store_menu_categories store_menu_categories_menu_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_menu_categories
+    ADD CONSTRAINT store_menu_categories_menu_category_id_fkey FOREIGN KEY (menu_category_id) REFERENCES public.menu_categories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: store_menu_categories store_menu_categories_store_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_menu_categories
+    ADD CONSTRAINT store_menu_categories_store_id_fkey FOREIGN KEY (store_id) REFERENCES public.store(id) ON DELETE CASCADE;
+
+
+--
+-- Name: store_merchants store_merchants_merchant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_merchants
+    ADD CONSTRAINT store_merchants_merchant_id_fkey FOREIGN KEY (merchant_id) REFERENCES public.merchant(id) ON DELETE CASCADE;
+
+
+--
+-- Name: store_merchants store_merchants_store_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.store_merchants
+    ADD CONSTRAINT store_merchants_store_id_fkey FOREIGN KEY (store_id) REFERENCES public.store(id) ON DELETE CASCADE;
+
+
+--
+-- Name: user_address user_address_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_address
+    ADD CONSTRAINT user_address_user_id_fkey FOREIGN KEY (user_id) REFERENCES public."user"(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

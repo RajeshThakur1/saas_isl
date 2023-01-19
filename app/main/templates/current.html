@@ -1,0 +1,115 @@
+	<html>
+  <head onload="submitPayuForm()">
+  <script type="text/javascript">
+    var hash = "{{ hashh }}";
+    function submitPayuForm() {
+      if(hash =='') {
+        return;
+      }
+      var payuForm = document.forms.payuForm;
+      payuForm.submit();
+    }
+  </script>
+  </head>
+  <body>
+    <h2>PayU Form</h2>
+    <br/>
+    {% if error %}
+	
+      <span style="color:red">Please fill all mandatory fields.</span>
+      <br/>
+      <br/>
+      {% endif %}
+     
+      <form action={{ action }} method="post" name="payuForm">
+      <input type="hidden" name="key" value="{{ output_data.key }}" />
+      <input type="hidden" name="hash_string" value="{{ hash_string }}" />
+      <input type="hidden" name="hash" value="{{ output_data.hash_key }}"/>
+       <!-- <input type="hidden" name="posted" value="{{ posted }}"/> -->
+      <input type="hidden" name="txnid" value="{{output_data.txnid }}" />'salt': 
+      <table>
+        <tr>
+          <td><b>Mandatory Parameters</b></td>
+        </tr>
+        <tr>
+         <td>Amount: </td>
+          <td><input name="amount" value="{{output_data.amount}}" /></td>
+          <td>First Name: </td>
+          <td><input name="firstname" id="firstname" value="{{ output_data.firstname}}"/></td>
+        </tr>
+        <tr>
+          <td>Email: </td>
+          <td><input name="email" id="email" value="{{ output_data.email }}" /></td>
+          <td>Phone: </td>
+          <td><input name="phone" value="{{ output_data.phone }}" /></td>
+        </tr>
+        <tr>
+          <td>Product Info: </td>
+          <td colspan="3"><textarea name="productinfo">{{ output_data.productinfo}}</textarea></td>
+        </tr>
+        <tr>
+          <td>Success URI: </td>
+          <td colspan="3"><input name="surl" value="{{ output_data.surl }}" size="64" /></td>
+        </tr>
+        <tr>
+          <td>Failure URI: </td>
+          <td colspan="3"><input name="furl" value="{{ output_data.furl }}" size="64" /></td>
+        </tr>
+
+        <tr>
+          <td colspan="3"><input type="hidden" name="service_provider" value="payu_paisa" size="64" /></td>
+        </tr>
+             <tr>
+          <td><b>Optional Parameters</b></td>
+        </tr>
+        <tr>
+          <td>Last Name: </td>
+          <td><input name="lastname" id="lastname" value="{{ output_data.lastname }}" /></td>
+          <td>Cancel URI: </td>
+          <td><input name="curl" value="" /></td>
+        </tr>
+        <tr>
+          <td>Address1: </td>
+          <td><input name="address1" value="{{ output_data.address1 }}" /></td>
+          <td>Address2: </td>
+          <td><input name="address2" value="{{ output_data.address2 }}" /></td>
+        </tr>
+        <tr>
+          <td>City: </td>
+          <td><input name="city" value="{{ output_data.city }}" /></td>
+          <td>State: </td>
+          <td><input name="state" value="{{ output_data.state }}" /></td>
+        </tr>
+        <tr>
+          <td>Country: </td>
+          <td><input name="country" value="{{ output_data.country }}" /></td>
+          <td>Zipcode: </td>
+          <td><input name="zipcode" value="{{ output_data.zipcode }}" /></td>
+        </tr>
+        <tr>
+          <td>UDF1: </td>
+          <td><input name="udf1" value="{{ output_data.udf1 }}" /></td>
+          <td>UDF2: </td>
+          <td><input name="udf2" value="{{ output_data.udf2 }}" /></td>
+        </tr>
+        <tr>
+          <td>UDF3: </td>
+          <td><input name="udf3" value="{{ output_data.udf3 }}" /></td>
+          <td>UDF4: </td>
+          <td><input name="udf4" value="{{ output_data.udf4 }}" /></td>
+        </tr>
+        <tr>
+          <td>UDF5: </td>
+          <td><input name="udf5" value="{{ output_data.udf5 }}" /></td>
+          <td>PG: </td>
+          <td><input name="pg" value="{{ output_data.PG }}" /></td>
+        </tr>
+        
+     <td colspan="4"><input type="submit" value="Submit" /></td>
+      
+    
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>
